@@ -1,7 +1,12 @@
 package com.github.kennycyb;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintWriter;
+
+import picocli.CommandLine;
 import org.junit.Test;
 
 /**
@@ -10,11 +15,16 @@ import org.junit.Test;
 public class AppTest 
 {
     /**
-     * Rigorous Test :-)
+     * Verify the help command prints the root command usage.
      */
     @Test
-    public void shouldAnswerWithTrue()
+    public void helpCommandDisplaysUsage()
     {
-        assertTrue( true );
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        CommandLine commandLine = new CommandLine(new App());
+        commandLine.setOut(new PrintWriter(output));
+
+        assertEquals(0, commandLine.execute("help"));
+        assertTrue(output.toString().contains("Usage: java-sandbox"));
     }
 }
